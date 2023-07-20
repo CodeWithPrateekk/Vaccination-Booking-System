@@ -1,11 +1,9 @@
 package com.example.VaccinationBookingSystems.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -21,10 +19,19 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+    @CreationTimestamp
     Date appointmentDate;
 
     String appointmentId;
 
     int doseNo;
+
+    @ManyToOne
+    @JoinColumn
+    Person person;
+
+    @ManyToOne
+    @JoinColumn
+    Doctor doctor;
 
 }

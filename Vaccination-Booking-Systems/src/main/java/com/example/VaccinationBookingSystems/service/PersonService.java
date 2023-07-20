@@ -3,6 +3,7 @@ package com.example.VaccinationBookingSystems.service;
 import com.example.VaccinationBookingSystems.Model.Person;
 import com.example.VaccinationBookingSystems.dto.RequestDto.AddPersonRequestDto;
 import com.example.VaccinationBookingSystems.dto.ResponseDto.AddPersonResponseDto;
+import com.example.VaccinationBookingSystems.exception.PeopleNotFoundException;
 import com.example.VaccinationBookingSystems.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,20 @@ public class PersonService {
        return addPersonResponseDto;
 
 
+    }
+
+
+
+    public String updateEmail(String oldEmail, String newEmail) {
+
+        Person person = personRepository.findByEmailId(oldEmail);
+        if(person==null){
+            throw new PeopleNotFoundException("Email doesn't exists");
+        }
+
+        person.setEmailId(newEmail);
+        personRepository.save(person);
+
+        return "EmailId has been updated";
     }
 }

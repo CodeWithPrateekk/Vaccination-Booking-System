@@ -5,6 +5,7 @@ import com.example.VaccinationBookingSystems.Model.Person;
 import com.example.VaccinationBookingSystems.dto.RequestDto.BookDose1RequestDto;
 import com.example.VaccinationBookingSystems.exception.DoseAlreadyTakenException;
 import com.example.VaccinationBookingSystems.exception.PeopleNotFoundException;
+import com.example.VaccinationBookingSystems.repository.DoseRepository;
 import com.example.VaccinationBookingSystems.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class DoseService {
 
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    DoseRepository doseRepository;
 
 ////    public Dose getDose1(int personId, DoseType doseType) {
 ////        Optional<Person> optionalPerson = personRepository.findById(personId);
@@ -69,7 +73,13 @@ public class DoseService {
         dose.setDoseType(bookDose1RequestDto.getDoseType());
         dose.setPerson(person);
 
+        doseRepository.save(dose);
+
+
+
         person.setDose1Taken(true);
+
+        person.getDosesTaken().add(dose);
 
         Person savedPerson = personRepository.save(person);
 
